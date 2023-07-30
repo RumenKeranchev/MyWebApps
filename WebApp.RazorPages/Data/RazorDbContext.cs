@@ -15,5 +15,7 @@ namespace WebApp.RazorPages.Data
         }
 
         public DbSet<Movie> Movies { get; set; } = default!;
+
+        public DbSet<Record> Records { get; set; } = default!;
     }
 }

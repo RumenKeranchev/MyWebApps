@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -36,10 +36,10 @@ nav {
     overflow-y: scroll;
 }
 
-.movies-table {
+.ct-table {
     color: inherit;
 }
 
-    .movies-table td {
+    .ct-table td {
         color: #9bfcff
     }

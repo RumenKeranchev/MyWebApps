@@ -60,6 +60,44 @@ namespace WebApp.RazorPages.Models
                 }
             );
 
+            context.Records.AddRange(
+                new Record
+                {
+                    Duration = new TimeSpan(0, 2, 37),
+                    Genre = "Rock",
+                    PerformerName = "Jeris Johnson",
+                    Title = "Kryptonite (Reloaded)",
+                    Price = 0.99m
+                },
+
+                new Record
+                {
+                    Duration = new TimeSpan(0, 3, 31),
+                    Genre = "Country",
+                    PerformerName = "Jon Pardi",
+                    Title = "Dirt On My Boots",
+                    Price = 0.89m
+                },
+                
+                new Record
+                {
+                    Duration = new TimeSpan(0, 3, 55),
+                    Genre = "Country",
+                    PerformerName = "Jessta James",
+                    Title = "Hell's Coming with Me",
+                    Price = 1.29m
+                },
+                
+                new Record
+                {
+                    Duration = new TimeSpan(0, 4, 33),
+                    Genre = "Heavy Metal",
+                    PerformerName = "Metallica",
+                    Title = "Too Far Gone?",
+                    Price = 1.99m
+                }
+            );
+
             context.SaveChanges();
         }
     }
