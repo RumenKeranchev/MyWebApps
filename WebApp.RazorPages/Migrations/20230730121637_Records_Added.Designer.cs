@@ -11,7 +11,7 @@ using WebApp.RazorPages.Data;
 
 namespace WebApp.RazorPages.Migrations
 {
-    [DbContext(typeof(RazorDbContext))]
+    [DbContext(typeof(Data.AppDbContext))]
     [Migration("20230730121637_Records_Added")]
     partial class Records_Added
     {

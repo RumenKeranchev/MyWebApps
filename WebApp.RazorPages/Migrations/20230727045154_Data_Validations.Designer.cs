@@ -11,7 +11,7 @@ using WebApp.RazorPages.Data;
 
 namespace WebApp.RazorPages.Migrations
 {
-    [DbContext(typeof(RazorDbContext))]
+    [DbContext(typeof(Data.AppDbContext))]
     [Migration("20230727045154_Data_Validations")]
     partial class Data_Validations
     {

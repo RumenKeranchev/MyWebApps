@@ -10,7 +10,7 @@ using WebApp.RazorPages.Data;
 
 namespace WebApp.RazorPages.Migrations
 {
-    [DbContext(typeof(RazorDbContext))]
+    [DbContext(typeof(Data.AppDbContext))]
     partial class RazorDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

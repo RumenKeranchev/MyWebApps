@@ -12,9 +12,9 @@ namespace WebApp.RazorPages.Pages.Records
 {
     public class CreateModel : PageModel
     {
-        private readonly RazorDbContext _context;
+        private readonly AppDbContext _context;
 
-        public CreateModel(RazorDbContext context)
+        public CreateModel(AppDbContext context)
         {
             _context = context;
         }

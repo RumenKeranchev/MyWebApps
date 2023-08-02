@@ -7,9 +7,9 @@ namespace WebApp.RazorPages.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using var context = new RazorDbContext(
+            using var context = new AppDbContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<RazorDbContext>>());
+                    DbContextOptions<AppDbContext>>());
 
             if (context == null || context.Movies == null)
             {

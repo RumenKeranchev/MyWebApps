@@ -13,9 +13,9 @@ namespace WebApp.RazorPages.Pages.Movies
 {
     public class EditModel : PageModel
     {
-        private readonly RazorDbContext _context;
+        private readonly AppDbContext _context;
 
-        public EditModel(RazorDbContext context)
+        public EditModel(AppDbContext context)
         {
             _context = context;
         }
