@@ -2,7 +2,7 @@
 {
     public static class ToDoApiExtension
     {
-        public static IEndpointRouteBuilder MapTodoApi(this WebApplication app)
+        public static void MapTodoApi(this WebApplication app)
         {
             var todoItems = app.MapGroup("todoItems");
 
@@ -50,8 +50,6 @@
 
                 return Results.NotFound();
             });
-
-            return todoItems;
         }
 
         private static async Task<IResult> GetAllToDos(TodoDb db)
