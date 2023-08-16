@@ -129,6 +129,7 @@ namespace WebApp.Services
             await Repository.UpdateAsync(item);
         }
 
+        // This is not part of an interface which will cause issues in testing
         public async Task ChangePriority(int id, int priority)
         {
             if (id <= 0)

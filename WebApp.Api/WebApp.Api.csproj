@@ -18,4 +18,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebApp.Database\WebApp.Database.csproj" />
+    <ProjectReference Include="..\WebApp.Models\WebApp.Models.csproj" />
+    <ProjectReference Include="..\WebApp.Repositories\WebApp.Repositories.csproj" />
+    <ProjectReference Include="..\WebApp.Services\WebApp.Services.csproj" />
+  </ItemGroup>
+
 </Project>
