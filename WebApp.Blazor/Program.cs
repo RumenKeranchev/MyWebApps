@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.ResponseCompression;
 using WebApp.Blazor.Data;
 using WebApp.Blazor.Hubs;
+using WebApp.Database;
+using WebApp.Models.Database;
+using WebApp.Repositories;
+using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
@@ -14,6 +19,9 @@ builder.Services.AddResponseCompression(opts =>
 {
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
+
+builder.Services.AddScoped(typeof(IRepo<TodoItem>), typeof(TodoItemsRepo));
+builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();
 

@@ -87,7 +87,8 @@ namespace WebApp.Services
             var todoItem = new TodoItem
             {
                 Name = entity.Name,
-                IsComplete = entity.IsCompleted
+                IsComplete = entity.IsCompleted,
+                Priority = Priority.Low
             };
 
             try

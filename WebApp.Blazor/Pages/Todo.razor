@@ -1,15 +1,16 @@
 ﻿@page "/todo"
+@inject TodoItemService service
 
 <PageTitle>Todo</PageTitle>
 
-<h3>Todo (@Items.Count(i => !i.IsDone))</h3>
+<h3>Todo (@Items.Count(i => !i.IsCompleted))</h3>
 
 <ol>
     @foreach (var item in Items)
     {
         <li class="my-2">
-            <input type="checkbox" @bind="item.IsDone" />
-            <input type="text" @bind="item.Title" />
+            <input type="checkbox" @bind="item.IsCompleted" class="btn-30 align-middle" />
+            <input type="text" @bind="item.Name" class="align-middle" />
         </li>
     }
 </ol>
@@ -17,18 +18,47 @@
 <input placeholder="Something todo" @bind="newTodo" />
 <button @onclick="AddTodo">Add todo</button>
 
+<style>
+    .btn-30 {
+        width: 30px;
+        height: 30px;
+    }
+
+    .va-mid {
+        vertical-align: middle;
+    }
+</style>
+
 @code {
 
     private string? newTodo;
 
-    public List<TodoItem> Items { get; set; } = new();
+    public List<TodoItemDto> Items { get; set; } = new();
 
-    public void AddTodo()
+    public async Task AddTodo()
     {
-        if (!string.IsNullOrWhiteSpace(newTodo))
+        try
         {
-            Items.Add(new TodoItem { Title = newTodo, IsDone = false });
-            newTodo = string.Empty;
+            var item = new TodoItemDto { Name = newTodo, IsCompleted = false };
+            await service.Insert(item);
         }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            newTodo = string.Empty;
+            await LoadData();
+        }
+    }
+
+    private async Task LoadData()
+        => Items = await service.GetAllAsync(new TodoItemsFilter() { Name = newTodo });
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+
+        await base.OnInitializedAsync();
     }
 }

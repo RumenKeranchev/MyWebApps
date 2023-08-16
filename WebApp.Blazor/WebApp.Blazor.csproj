@@ -8,6 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebApp.Database\WebApp.Database.csproj" />
+    <ProjectReference Include="..\WebApp.Models\WebApp.Models.csproj" />
+    <ProjectReference Include="..\WebApp.Repositories\WebApp.Repositories.csproj" />
+    <ProjectReference Include="..\WebApp.Services\WebApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
