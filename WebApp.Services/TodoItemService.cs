@@ -43,6 +43,10 @@ namespace WebApp.Services
             {
                 query = Repository.FindAllQueryable(i => i.Priority == casted.Priority.Value);
             }
+            if (casted.IsCompleted.HasValue)
+            {
+                query = Repository.FindAllQueryable(i => i.IsComplete ==  casted.IsCompleted.Value);
+            }
 
             return await query
                 .Select(i => new TodoItemDto

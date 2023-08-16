@@ -1,4 +1,8 @@
-﻿namespace WebApp.MinApi
+﻿using WebApp.Models.Dto;
+using WebApp.Models.ViewFilter;
+using WebApp.Services;
+
+namespace WebApp.MinApi
 {
     public static class ToDoApiExtension
     {
@@ -8,51 +12,97 @@
 
             todoItems.MapGet("/", GetAllToDos);
 
-            todoItems.MapGet("/complete", async (TodoDb db) =>
-                await db.Todos.Where(t => t.IsComplete).ToListAsync());
+            todoItems.MapGet("/complete", GetCompletedToDos);
 
-            todoItems.MapGet("/{id}", async (int id, TodoDb db) =>
-                await db.Todos.FindAsync(id)
-                    is Todo todo
-                        ? Results.Ok(todo)
-                        : Results.NotFound());
+            todoItems.MapGet("/{id}", GetById);
 
-            todoItems.MapPost("/", async (Todo todo, TodoDb db) =>
-            {
-                db.Todos.Add(todo);
-                await db.SaveChangesAsync();
+            todoItems.MapPost("/", Create);
 
-                return Results.Created($"/{todo.Id}", todo);
-            });
+            todoItems.MapPut("/{id}", Update);
 
-            todoItems.MapPut("/{id}", async (int id, Todo inputTodo, TodoDb db) =>
-            {
-                var todo = await db.Todos.FindAsync(id);
-
-                if (todo is null) return Results.NotFound();
-
-                todo.Name = inputTodo.Name;
-                todo.IsComplete = inputTodo.IsComplete;
-
-                await db.SaveChangesAsync();
-
-                return Results.NoContent();
-            });
-
-            todoItems.MapDelete("/{id}", async (int id, TodoDb db) =>
-            {
-                if (await db.Todos.FindAsync(id) is Todo todo)
-                {
-                    db.Todos.Remove(todo);
-                    await db.SaveChangesAsync();
-                    return Results.NoContent();
-                }
-
-                return Results.NotFound();
-            });
+            todoItems.MapDelete("/{id}", Delete);
         }
 
-        private static async Task<IResult> GetAllToDos(TodoDb db)
-            => TypedResults.Ok(await db.Todos.ToListAsync());
+        private static async Task<IResult> GetAllToDos(TodoItemService service)
+            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter()));
+
+        private static async Task<IResult> GetCompletedToDos(TodoItemService service)
+            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter() { IsCompleted = true }));
+
+        private static async Task<IResult> GetById(long id, TodoItemService service)
+        {
+            try
+            {
+                var item = await service.GetById(id);
+                return Results.Ok(item);
+            }
+            catch (ArgumentException)
+            {
+                return Results.BadRequest();
+            }
+            catch (NullReferenceException)
+            {
+                return Results.NotFound(id);
+            }
+        }
+
+        private static async Task<IResult> Create(TodoItemDto dto, TodoItemService service)
+        {
+            try
+            {
+                var id = await service.Insert(dto);
+                return Results.Created($"/{id}", null);
+            }
+            catch (ArgumentNullException)
+            {
+                return Results.BadRequest();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+        private static async Task<IResult> Update(TodoItemDto dto, TodoItemService service)
+        {
+            try
+            {
+                await service.Update(dto);
+                return Results.NoContent();
+            }
+            catch (NullReferenceException)
+            {
+                return Results.BadRequest();
+            }
+            catch (ArgumentException)
+            {
+                return Results.BadRequest();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+        private static async Task<IResult> Delete(long id, TodoItemService service)
+        {
+            try
+            {
+                await service.Delete(id);
+                return Results.NoContent();
+            }
+            catch (NullReferenceException)
+            {
+                return Results.NotFound();
+            }
+            catch (ArgumentException)
+            {
+                return Results.BadRequest();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
