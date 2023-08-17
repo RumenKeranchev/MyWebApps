@@ -12,7 +12,7 @@ namespace WebApp.Services
         {
         }
 
-        public override async Task Delete(long id)
+        public override async Task DeleteAsync(long id)
         {
             if (id <= 0)
             {
@@ -37,15 +37,15 @@ namespace WebApp.Services
 
             if (!string.IsNullOrWhiteSpace(casted!.Name))
             {
-                query = Repository.FindAllQueryable(i => i.Name.Contains(casted.Name));
+                query = Repository.GetAllFilteredQueryable(i => i.Name.Contains(casted.Name));
             }
             if (casted.Priority.HasValue)
             {
-                query = Repository.FindAllQueryable(i => i.Priority == casted.Priority.Value);
+                query = Repository.GetAllFilteredQueryable(i => i.Priority == casted.Priority.Value);
             }
             if (casted.IsCompleted.HasValue)
             {
-                query = Repository.FindAllQueryable(i => i.IsComplete ==  casted.IsCompleted.Value);
+                query = Repository.GetAllFilteredQueryable(i => i.IsComplete ==  casted.IsCompleted.Value);
             }
 
             return await query
@@ -58,7 +58,7 @@ namespace WebApp.Services
                 .ToListAsync();
         }
 
-        public override Task<TodoItemDto?> GetById(long id)
+        public override Task<TodoItemDto?> GetByIdAsync(long id)
         {
             if (id <= 0)
             {
@@ -81,7 +81,7 @@ namespace WebApp.Services
                 : item;
         }
 
-        public override async Task<long> Insert(TodoItemDto entity)
+        public override async Task<long> InsertAsync(TodoItemDto entity)
         {
             if (string.IsNullOrWhiteSpace(entity.Name))
             {
@@ -105,7 +105,7 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task Update(TodoItemDto entity)
+        public override async Task UpdateAsync(TodoItemDto entity)
         {
             if (entity is null)
             {
@@ -117,7 +117,7 @@ namespace WebApp.Services
                 throw new ArgumentException("Attempted to update item an invalid Id!");
             }
 
-            var itemId = await Repository.FindAllQueryable(x => x.Id == entity.Id).Select(x => x.Id).FirstOrDefaultAsync();
+            var itemId = await Repository.GetAllFilteredQueryable(x => x.Id == entity.Id).Select(x => x.Id).FirstOrDefaultAsync();
 
             if (itemId == default)
             {

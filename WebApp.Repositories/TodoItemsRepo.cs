@@ -17,15 +17,12 @@ namespace WebApp.Repositories
 
         public override async Task DeleteAsync(long id)
         {
-            var item = await _context.ToDoItems.FindAsync(id);
-            if (item != null)
-            {
-                _context.Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            var item = await _context.ToDoItems.FirstAsync(i => i.Id == id);
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        public override IQueryable<TodoItem> FindAllQueryable(Expression<Func<TodoItem, bool>> filter)
+        public override IQueryable<TodoItem> GetAllFilteredQueryable(Expression<Func<TodoItem, bool>> filter)
             => _context.ToDoItems.Where(filter);
 
         public override async Task<List<TodoItem>> GetAllAsync()
@@ -57,9 +54,17 @@ namespace WebApp.Repositories
         {
             var item = await _context.ToDoItems.FirstAsync(x => x.Id == entity.Id);
 
-            foreach (var prop in entity.GetType().GetProperties(BindingFlags.Public))
+            var x = _context.Entry(entity).Properties.Where(p => p.IsModified).ToList();
+
+            foreach (var prop in entity.GetType().GetProperties())
             {
-                item.GetType().GetProperty(prop.Name)!.SetValue(item, prop.GetValue(entity));
+                var value = prop.GetValue(entity);
+                var itemProp = item.GetType().GetProperty(prop.Name);
+
+                if (value != default && itemProp!.GetValue(item) != value)
+                {
+                    itemProp.SetValue(item, value);
+                }
             }
 
             await _context.SaveChangesAsync();

@@ -31,7 +31,7 @@ namespace WebApp.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItemDto>> GetTodoItem(long id)
         {
-            var todoItem = await _service.GetById(id);
+            var todoItem = await _service.GetByIdAsync(id);
 
             if (todoItem == null)
             {
@@ -53,7 +53,7 @@ namespace WebApp.Api.Controllers
 
             try
             {
-                await _service.Update(todoItemDto);
+                await _service.UpdateAsync(todoItemDto);
             }
             catch (NullReferenceException)
             {
@@ -74,7 +74,7 @@ namespace WebApp.Api.Controllers
         {
             try
             {
-                var id = await _service.Insert(todoItemDTO);
+                var id = await _service.InsertAsync(todoItemDTO);
 
                 return CreatedAtAction(nameof(GetTodoItem), new { id });
             }
@@ -90,7 +90,7 @@ namespace WebApp.Api.Controllers
         {
             try
             {
-                await _service.Delete(id);
+                await _service.DeleteAsync(id);
 
                 return NoContent();
             }

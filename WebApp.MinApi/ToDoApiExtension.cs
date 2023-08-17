@@ -33,7 +33,7 @@ namespace WebApp.MinApi
         {
             try
             {
-                var item = await service.GetById(id);
+                var item = await service.GetByIdAsync(id);
                 return Results.Ok(item);
             }
             catch (ArgumentException)
@@ -50,7 +50,7 @@ namespace WebApp.MinApi
         {
             try
             {
-                var id = await service.Insert(dto);
+                var id = await service.InsertAsync(dto);
                 return Results.Created($"/{id}", null);
             }
             catch (ArgumentNullException)
@@ -67,7 +67,7 @@ namespace WebApp.MinApi
         {
             try
             {
-                await service.Update(dto);
+                await service.UpdateAsync(dto);
                 return Results.NoContent();
             }
             catch (NullReferenceException)
@@ -88,7 +88,7 @@ namespace WebApp.MinApi
         {
             try
             {
-                await service.Delete(id);
+                await service.DeleteAsync(id);
                 return Results.NoContent();
             }
             catch (NullReferenceException)

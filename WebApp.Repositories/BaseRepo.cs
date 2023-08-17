@@ -11,7 +11,7 @@ namespace WebApp.Repositories
     {
         public abstract Task DeleteAsync(long id);
 
-        public abstract IQueryable<T> FindAllQueryable(Expression<Func<T, bool>> filter);
+        public abstract IQueryable<T> GetAllFilteredQueryable(Expression<Func<T, bool>> filter);
 
         public abstract Task<List<T>> GetAllAsync();
 

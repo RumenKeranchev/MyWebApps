@@ -10,7 +10,7 @@ namespace WebApp.Repositories
 
         Task<List<T>> GetAllFilteredAsync(Expression<Func<T, bool>> filter);
 
-        IQueryable<T> FindAllQueryable(Expression<Func<T, bool>> filter);
+        IQueryable<T> GetAllFilteredQueryable(Expression<Func<T, bool>> filter);
 
         Task<T?> GetByIdAsync(long id);
 

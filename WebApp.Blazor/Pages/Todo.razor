@@ -39,8 +39,8 @@
     {
         try
         {
-            var item = new TodoItemDto { Name = newTodo, IsCompleted = false };
-            await service.Insert(item);
+            var item = new TodoItemDto { Name = newTodo ?? string.Empty, IsCompleted = false };
+            await service.InsertAsync(item);
         }
         catch (Exception)
         {

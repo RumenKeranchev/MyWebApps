@@ -16,14 +16,14 @@ namespace WebApp.Services
 
         public IRepo<T2> Repository => _repo;
 
-        public abstract Task Delete(long id);
+        public abstract Task DeleteAsync(long id);
 
         public abstract Task<List<T1>> GetAllAsync(IFilter filter);
 
-        public abstract Task<T1?> GetById(long id);
+        public abstract Task<T1?> GetByIdAsync(long id);
 
-        public abstract Task<long> Insert(T1 entity);
+        public abstract Task<long> InsertAsync(T1 entity);
 
-        public abstract Task Update(T1 entity);
+        public abstract Task UpdateAsync(T1 entity);
     }
 }

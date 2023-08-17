@@ -7,12 +7,12 @@ namespace WebApp.Services
     {
         Task<List<T>> GetAllAsync(IFilter filter);
 
-        Task<T?> GetById(long id);
+        Task<T?> GetByIdAsync(long id);
 
-        Task<long> Insert(T entity);
+        Task<long> InsertAsync(T entity);
 
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
 
-        Task Delete(long id);
+        Task DeleteAsync(long id);
     }
 }
