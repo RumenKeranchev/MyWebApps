@@ -23,8 +23,8 @@ namespace WebApp.MinApi
             todoItems.MapDelete("/{id}", Delete);
         }
 
-        private static async Task<IResult> GetAllToDos(TodoItemService service)
-            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter()));
+        private static async Task<IResult> GetAllToDos( TodoItemService service, string? name = null, bool? isComplete = null)
+            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter() { Name = name, IsCompleted = isComplete }));
 
         private static async Task<IResult> GetCompletedToDos(TodoItemService service)
             => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter() { IsCompleted = true }));
@@ -62,7 +62,7 @@ namespace WebApp.MinApi
                 throw;
             }
         }
-        
+
         private static async Task<IResult> Update(TodoItemDto dto, TodoItemService service)
         {
             try
@@ -83,7 +83,7 @@ namespace WebApp.MinApi
                 throw;
             }
         }
-        
+
         private static async Task<IResult> Delete(long id, TodoItemService service)
         {
             try

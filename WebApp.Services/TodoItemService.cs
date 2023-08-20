@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WebApp.Models.Database;
 using WebApp.Models.Dto;
 using WebApp.Models.ViewFilter;
@@ -29,33 +30,36 @@ namespace WebApp.Services
             }
         }
 
+        // NEEDS A FIX! FILTERING MULTIPLE PARAMS THROWS AN ERROR!
         public override async Task<List<TodoItemDto>> GetAllAsync(IFilter filter)
         {
-            var query = Repository.GetAllQueryable();
+            //var query = Repository.GetAllQueryable();
 
             var casted = filter as TodoItemsFilter;
 
+            Expression<Func<TodoItem, bool>> expression = (item) => false;
+
             if (!string.IsNullOrWhiteSpace(casted!.Name))
             {
-                query = Repository.GetAllFilteredQueryable(i => i.Name.Contains(casted.Name));
+                //query = Repository.GetAllFilteredQueryable(i => i.Name.Contains(casted.Name));
+                expression = (item) => item.Name.Contains(casted!.Name);
             }
             if (casted.Priority.HasValue)
             {
-                query = Repository.GetAllFilteredQueryable(i => i.Priority == casted.Priority.Value);
+                //query = Repository.GetAllFilteredQueryable(i => i.Priority == casted.Priority.Value);
+                Expression<Func<TodoItem, bool>> nameFilter = (item) => item.Priority == casted.Priority.Value;
+                var x = Expression.AndAlso(expression, nameFilter);
+                expression = Expression.Lambda<Func<TodoItem, bool>>(x, nameFilter.Parameters.First());
             }
             if (casted.IsCompleted.HasValue)
             {
-                query = Repository.GetAllFilteredQueryable(i => i.IsComplete ==  casted.IsCompleted.Value);
+                //query = Repository.GetAllFilteredQueryable(i => i.IsComplete == casted.IsCompleted.Value);
+                Expression<Func<TodoItem, bool>> nameFilter = (item) => item.IsComplete == casted.IsCompleted.Value;
+                var x = Expression.AndAlso(expression.Body, nameFilter.Body);
+                expression = Expression.Lambda<Func<TodoItem, bool>>(x, nameFilter.Parameters);
             }
 
-            return await query
-                .Select(i => new TodoItemDto
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    IsCompleted = i.IsComplete
-                })
-                .ToListAsync();
+            return await Repository.GetAllAsync(TodoItemDto.Selector, expression);
         }
 
         public override Task<TodoItemDto?> GetByIdAsync(long id)
@@ -65,16 +69,7 @@ namespace WebApp.Services
                 throw new ArgumentException($"Invalid Id provided for retrieval!");
             }
 
-            var item = Repository
-                .GetAllQueryable()
-                .Where(i => i.Id.Equals(id))
-                .Select(i => new TodoItemDto
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    IsCompleted = i.IsComplete
-                })
-                .FirstOrDefaultAsync();
+            var item = Repository.GetByIdAsync(id, TodoItemDto.Selector);
 
             return item is null
                 ? throw new NullReferenceException($"Item with Id [{id}] not found!")
@@ -91,7 +86,7 @@ namespace WebApp.Services
             var todoItem = new TodoItem
             {
                 Name = entity.Name,
-                IsComplete = entity.IsCompleted,
+                IsComplete = entity.IsComplete,
                 Priority = Priority.Low
             };
 
@@ -117,9 +112,9 @@ namespace WebApp.Services
                 throw new ArgumentException("Attempted to update item an invalid Id!");
             }
 
-            var itemId = await Repository.GetAllFilteredQueryable(x => x.Id == entity.Id).Select(x => x.Id).FirstOrDefaultAsync();
+            var itemId = await Repository.GetByIdAsync(entity.Id, x => new { x.Id });
 
-            if (itemId == default)
+            if (itemId is null)
             {
                 throw new NullReferenceException($"Attempted to update non-existent item [{entity.Id}]");
             }
@@ -129,7 +124,7 @@ namespace WebApp.Services
                 throw new ArgumentException($"Attempted to change item [{entity.Id}] with invalid name.");
             }
 
-            var item = new TodoItem { Id = entity.Id, Name = entity.Name, IsComplete = entity.IsCompleted };
+            var item = new TodoItem { Id = entity.Id, Name = entity.Name, IsComplete = entity.IsComplete };
             await Repository.UpdateAsync(item);
         }
 
@@ -141,7 +136,7 @@ namespace WebApp.Services
                 throw new ArgumentException("Attempted to change priority for item with an invalid Id!");
             }
 
-            var item = await Repository.GetByIdAsync(id);
+            var item = await Repository.GetByIdAsync(id, x => x);
 
             if (item is null)
             {

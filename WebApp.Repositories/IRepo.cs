@@ -1,22 +1,17 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace WebApp.Repositories
 {
-    public interface IRepo<T> where T : class
+    public interface IRepo<TModel> where TModel : class
     {
-        Task<List<T>> GetAllAsync();
+        Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TModel, TResult>> selector, Expression<Func<TModel, bool>> filter) where TResult : class;
 
-        IQueryable<T> GetAllQueryable();
+        Task<TResult?> GetByIdAsync<TResult>(long id, Expression<Func<TModel, TResult>> selector) where TResult : class;
 
-        Task<List<T>> GetAllFilteredAsync(Expression<Func<T, bool>> filter);
+        Task<long> InsertAsync(TModel entity);
 
-        IQueryable<T> GetAllFilteredQueryable(Expression<Func<T, bool>> filter);
-
-        Task<T?> GetByIdAsync(long id);
-
-        Task<long> InsertAsync(T entity);
-
-        Task UpdateAsync(T entity);
+        Task UpdateAsync(TModel entity);
 
         Task DeleteAsync(long id);
     }

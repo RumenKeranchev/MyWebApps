@@ -11,15 +11,9 @@ namespace WebApp.Repositories
     {
         public abstract Task DeleteAsync(long id);
 
-        public abstract IQueryable<T> GetAllFilteredQueryable(Expression<Func<T, bool>> filter);
+        public abstract Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> filter) where TResult : class;
 
-        public abstract Task<List<T>> GetAllAsync();
-
-        public abstract Task<List<T>> GetAllFilteredAsync(Expression<Func<T, bool>> filter);
-
-        public abstract IQueryable<T> GetAllQueryable();
-
-        public abstract Task<T?> GetByIdAsync(long id);
+        public abstract Task<TResult?> GetByIdAsync<TResult>(long id, Expression<Func<T, TResult>> selector) where TResult : class;
 
         public abstract Task<long> InsertAsync(T entity);
 

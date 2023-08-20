@@ -22,20 +22,18 @@ namespace WebApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public override IQueryable<TodoItem> GetAllFilteredQueryable(Expression<Func<TodoItem, bool>> filter)
-            => _context.ToDoItems.Where(filter);
+        public override Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, Expression<Func<TodoItem, bool>> filter) where TResult : class
+            => _context
+               .ToDoItems
+               .Where(filter)
+               .Select(selector)
+               .ToListAsync();
 
-        public override async Task<List<TodoItem>> GetAllAsync()
-            => await _context.ToDoItems.ToListAsync();
-
-        public override async Task<List<TodoItem>> GetAllFilteredAsync(Expression<Func<TodoItem, bool>> filter)
-            => await _context.ToDoItems.Where(filter).ToListAsync();
-
-        public override IQueryable<TodoItem> GetAllQueryable()
-            => _context.ToDoItems.AsQueryable();
-
-        public override async Task<TodoItem?> GetByIdAsync(long id)
-            => await _context.ToDoItems.FindAsync(id);
+        public override Task<TResult?> GetByIdAsync<TResult>(long id, Expression<Func<TodoItem, TResult>> selector) where TResult : class
+            => _context.ToDoItems
+                .Where(i => i.Id == id)
+                .Select(selector)
+                .SingleOrDefaultAsync();
 
         public override async Task<long> InsertAsync(TodoItem entity)
         {
