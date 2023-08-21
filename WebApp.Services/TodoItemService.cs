@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using WebApp.Models.Database;
 using WebApp.Models.Dto;
 using WebApp.Models.ViewFilter;
@@ -30,33 +31,23 @@ namespace WebApp.Services
             }
         }
 
-        // NEEDS A FIX! FILTERING MULTIPLE PARAMS THROWS AN ERROR!
         public override async Task<List<TodoItemDto>> GetAllAsync(IFilter filter)
         {
-            //var query = Repository.GetAllQueryable();
-
             var casted = filter as TodoItemsFilter;
 
-            Expression<Func<TodoItem, bool>> expression = (item) => false;
+            Expression<Func<TodoItem, bool>> expression = (item) => true;
 
             if (!string.IsNullOrWhiteSpace(casted!.Name))
             {
-                //query = Repository.GetAllFilteredQueryable(i => i.Name.Contains(casted.Name));
-                expression = (item) => item.Name.Contains(casted!.Name);
+                expression = expression.AndAlso((item) => item.Name.Contains(casted!.Name));
             }
             if (casted.Priority.HasValue)
             {
-                //query = Repository.GetAllFilteredQueryable(i => i.Priority == casted.Priority.Value);
-                Expression<Func<TodoItem, bool>> nameFilter = (item) => item.Priority == casted.Priority.Value;
-                var x = Expression.AndAlso(expression, nameFilter);
-                expression = Expression.Lambda<Func<TodoItem, bool>>(x, nameFilter.Parameters.First());
+                expression = expression.AndAlso((item) => item.Priority == casted.Priority.Value);
             }
             if (casted.IsCompleted.HasValue)
             {
-                //query = Repository.GetAllFilteredQueryable(i => i.IsComplete == casted.IsCompleted.Value);
-                Expression<Func<TodoItem, bool>> nameFilter = (item) => item.IsComplete == casted.IsCompleted.Value;
-                var x = Expression.AndAlso(expression.Body, nameFilter.Body);
-                expression = Expression.Lambda<Func<TodoItem, bool>>(x, nameFilter.Parameters);
+                expression = expression.AndAlso((item) => item.IsComplete == casted.IsCompleted.Value);
             }
 
             return await Repository.GetAllAsync(TodoItemDto.Selector, expression);
