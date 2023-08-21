@@ -1,15 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using WebApp.Models.Database;
 using WebApp.MVC.Models;
+using WebApp.Repositories;
+using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") 
-        ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
+builder.Services.AddDbContext<AppDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRepo<TodoItem>, TodoItemsRepo>();
+builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();
 

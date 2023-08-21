@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
+﻿using System.Linq.Expressions;
 using WebApp.Models.Database;
 using WebApp.Models.Dto;
 using WebApp.Models.ViewFilter;

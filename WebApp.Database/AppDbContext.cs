@@ -6,10 +6,14 @@ namespace WebApp.Database
     {
         private const string _connectionString = "Server=(localdb)\\ProjectModels;Database=AppDbContext;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-        //public AppDbContext(DbContextOptions<AppDbContext> options)
-        //   : base(options)
-        //{           
-        //}
+        public AppDbContext()
+        {
+        }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+           : base(options)
+        {
+        }
 
         public DbSet<TodoItem> ToDoItems { get; set; } = default!;
 

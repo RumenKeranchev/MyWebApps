@@ -15,4 +15,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebApp.Database\WebApp.Database.csproj" />
+    <ProjectReference Include="..\WebApp.Models\WebApp.Models.csproj" />
+    <ProjectReference Include="..\WebApp.Repositories\WebApp.Repositories.csproj" />
+    <ProjectReference Include="..\WebApp.Services\WebApp.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="WebApp.Database" />
+  </ItemGroup>
+
 </Project>

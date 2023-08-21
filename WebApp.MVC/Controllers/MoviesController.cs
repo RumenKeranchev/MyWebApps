@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApp.MVC.Models;
@@ -21,53 +17,53 @@ namespace WebApp.MVC.Controllers
         // GET: Movies
         public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
-            if (_context.Movies == null)
-            {
-                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
-            }
+            //if (_context.Movies == null)
+            //{
+            //    return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            //}
 
-            var genres = await _context.Movies
-                .Select(m => m.Genre)
-                .Distinct()
-                .ToListAsync();
+            //var genres = await _context.Movies
+            //    .Select(m => m.Genre)
+            //    .Distinct()
+            //    .ToListAsync();
 
-            var movies = _context.Movies.AsQueryable();
+            //var movies = _context.Movies.AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                movies = movies.Where(s => s.Title!.Contains(searchString));
-            }
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    movies = movies.Where(s => s.Title!.Contains(searchString));
+            //}
 
-            if (!string.IsNullOrEmpty(movieGenre))
-            {
-                movies = movies.Where(x => x.Genre == movieGenre);
-            }
+            //if (!string.IsNullOrEmpty(movieGenre))
+            //{
+            //    movies = movies.Where(x => x.Genre == movieGenre);
+            //}
 
-            var movieGenreVM = new MovieGenreViewModel
-            {
-                Genres = new SelectList(genres),
-                Movies = await movies.ToListAsync()
-            };
+            //var movieGenreVM = new MovieGenreViewModel
+            //{
+            //    Genres = new SelectList(genres),
+            //    Movies = await movies.ToListAsync()
+            //};
 
-            return View(movieGenreVM);
+            return View(new MovieGenreViewModel());
         }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Movies == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Movies == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
+            //var movie = await _context.Movies
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (movie == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(movie);
+            return View(new Movie());
         }
 
         // GET: Movies/Create
@@ -95,17 +91,17 @@ namespace WebApp.MVC.Controllers
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Movies == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Movies == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-            return View(movie);
+            //var movie = await _context.Movies.FindAsync(id);
+            //if (movie == null)
+            //{
+            //    return NotFound();
+            //}
+            return View(new Movie());
         }
 
         // POST: Movies/Edit/5
@@ -146,19 +142,19 @@ namespace WebApp.MVC.Controllers
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Movies == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Movies == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
+            //var movie = await _context.Movies
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (movie == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(movie);
+            return View(new Movie());
         }
 
         // POST: Movies/Delete/5
@@ -166,23 +162,24 @@ namespace WebApp.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Movies == null)
-            {
-                return Problem("Entity set 'AppDbContext.Movie'  is null.");
-            }
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie != null)
-            {
-                _context.Movies.Remove(movie);
-            }
-            
+            //if (_context.Movies == null)
+            //{
+            //    return Problem("Entity set 'AppDbContext.Movie'  is null.");
+            //}
+            //var movie = await _context.Movies.FindAsync(id);
+            //if (movie != null)
+            //{
+            //    _context.Movies.Remove(movie);
+            //}
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-          return (_context.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
+            //return (_context.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
+            return false;
         }
     }
 }
