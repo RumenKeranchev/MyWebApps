@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using WebApp.RazorPages.Data;
+﻿using WebApp.Database;
+using WebApp.Models.Database;
 using WebApp.RazorPages.Models;
+using WebApp.Repositories;
+using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("RazorDbContext") ?? throw new InvalidOperationException("Connection string 'RazorDbContext' not found.")));
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IRepo<TodoItem>, TodoItemsRepo>();
+builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();
 

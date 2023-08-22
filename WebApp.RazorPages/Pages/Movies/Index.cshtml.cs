@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using WebApp.RazorPages.Data;
-using WebApp.RazorPages.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebApp.RazorPages.Models;
 
 namespace WebApp.RazorPages.Pages.Movies
 {
@@ -32,23 +26,23 @@ namespace WebApp.RazorPages.Pages.Movies
 
         public async Task OnGetAsync()
         {
-            var movies = _context.Movies.AsQueryable();
-            var genres = await movies
-                .Select(m => m.Genre)
-                .Distinct()
-                .ToListAsync();
+            //var movies = _context.Movies.AsQueryable();
+            //var genres = await movies
+            //    .Select(m => m.Genre)
+            //    .Distinct()
+            //    .ToListAsync();
 
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                movies = movies.Where(m => m.Title.Contains(SearchString));
-            }
-            if (!string.IsNullOrEmpty(MovieGenre))
-            {
-                movies = movies.Where(m => m.Genre == MovieGenre);
-            }
+            //if (!string.IsNullOrEmpty(SearchString))
+            //{
+            //    movies = movies.Where(m => m.Title.Contains(SearchString));
+            //}
+            //if (!string.IsNullOrEmpty(MovieGenre))
+            //{
+            //    movies = movies.Where(m => m.Genre == MovieGenre);
+            //}
 
-            Movies = await movies.ToListAsync();
-            Genres = new SelectList(genres);
+            //Movies = await movies.ToListAsync();
+            //Genres = new SelectList(genres);
         }
     }
 }

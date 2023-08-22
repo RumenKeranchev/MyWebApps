@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApp.RazorPages.Data;
 using WebApp.RazorPages.Models;
 
 namespace WebApp.RazorPages.Pages.Records
@@ -26,18 +20,18 @@ namespace WebApp.RazorPages.Pages.Records
 
         [BindProperty]
         public Record Record { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Records == null || Record == null)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid || _context.Records == null || Record == null)
+            //{
+            //    return Page();
+            //}
 
-            _context.Records.Add(Record);
-            await _context.SaveChangesAsync();
+            //_context.Records.Add(Record);
+            //await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
