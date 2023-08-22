@@ -21,7 +21,7 @@ namespace WebApp.MVC.Controllers
         // GET: TodoItems
         public async Task<IActionResult> Index(string? name = null, bool? isCompleted = null)
         {
-            var items = await _service.GetAllAsync(new TodoItemsFilter() { Name = name, IsCompleted = isCompleted });
+            var items = await _service.GetAsync(new TodoItemsFilter() { Name = name, IsCompleted = isCompleted });
             return View(items);
         }
 

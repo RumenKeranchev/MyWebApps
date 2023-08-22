@@ -19,8 +19,4 @@
     <ProjectReference Include="..\WebApp.Repositories\WebApp.Repositories.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Using Include="WebApp.Services.Helpers" />
-  </ItemGroup>
-
 </Project>

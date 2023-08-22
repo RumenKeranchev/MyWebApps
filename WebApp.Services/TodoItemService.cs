@@ -29,27 +29,8 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task<List<TodoItemDto>> GetAllAsync(IFilter filter)
-        {
-            var casted = filter as TodoItemsFilter;
-
-            Expression<Func<TodoItem, bool>> expression = (item) => true;
-
-            if (!string.IsNullOrWhiteSpace(casted!.Name))
-            {
-                expression = expression.AndAlso((item) => item.Name.Contains(casted!.Name));
-            }
-            if (casted.Priority.HasValue)
-            {
-                expression = expression.AndAlso((item) => item.Priority == casted.Priority.Value);
-            }
-            if (casted.IsCompleted.HasValue)
-            {
-                expression = expression.AndAlso((item) => item.IsComplete == casted.IsCompleted.Value);
-            }
-
-            return await Repository.GetAllAsync(TodoItemDto.Selector, expression);
-        }
+        public override async Task<List<TodoItemDto>> GetAsync(IFilter<TodoItem> filter)
+            => await Repository.GetAsync(TodoItemDto.Selector, filter.Get());
 
         public override Task<TodoItemDto?> GetByIdAsync(long id)
         {
@@ -101,12 +82,8 @@ namespace WebApp.Services
                 throw new ArgumentException("Attempted to update item an invalid Id!");
             }
 
-            var itemId = await Repository.GetByIdAsync(entity.Id, x => new { x.Id });
-
-            if (itemId is null)
-            {
-                throw new NullReferenceException($"Attempted to update non-existent item [{entity.Id}]");
-            }
+            var itemId = await Repository.GetByIdAsync(entity.Id, x => new { x.Id })
+                ?? throw new NullReferenceException($"Attempted to update non-existent item [{entity.Id}]");
 
             if (string.IsNullOrWhiteSpace(entity.Name))
             {
@@ -125,12 +102,8 @@ namespace WebApp.Services
                 throw new ArgumentException("Attempted to change priority for item with an invalid Id!");
             }
 
-            var item = await Repository.GetByIdAsync(id, x => x);
-
-            if (item is null)
-            {
-                throw new NullReferenceException($"Attempted to change priority for non-existent item [{id}]");
-            }
+            var item = await Repository.GetByIdAsync(id, x => x)
+                ?? throw new NullReferenceException($"Attempted to change priority for non-existent item [{id}]");
 
             var parsedPriority = Enum.TryParse(priority.ToString(), true, out Priority parsed);
 

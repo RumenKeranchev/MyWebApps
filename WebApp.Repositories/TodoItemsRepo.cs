@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Reflection;
 using WebApp.Database;
 using WebApp.Models.Database;
 
@@ -22,10 +21,10 @@ namespace WebApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public override Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, Expression<Func<TodoItem, bool>> filter) where TResult : class
-            => _context
-               .ToDoItems
-               .Where(filter)
+        public override Task<List<TResult>> GetAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, IEnumerable<Expression<Func<TodoItem, bool>>> filters) 
+            where TResult : class
+           => filters
+               .Aggregate(_context.ToDoItems.AsQueryable(), (items, filter) => items.Where(filter))
                .Select(selector)
                .ToListAsync();
 

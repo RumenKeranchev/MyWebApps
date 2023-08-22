@@ -24,10 +24,10 @@ namespace WebApp.MinApi
         }
 
         private static async Task<IResult> GetAllToDos( TodoItemService service, string? name = null, bool? isComplete = null)
-            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter() { Name = name, IsCompleted = isComplete }));
+            => TypedResults.Ok(await service.GetAsync(new TodoItemsFilter() { Name = name, IsCompleted = isComplete }));
 
         private static async Task<IResult> GetCompletedToDos(TodoItemService service)
-            => TypedResults.Ok(await service.GetAllAsync(new TodoItemsFilter() { IsCompleted = true }));
+            => TypedResults.Ok(await service.GetAsync(new TodoItemsFilter() { IsCompleted = true }));
 
         private static async Task<IResult> GetById(long id, TodoItemService service)
         {

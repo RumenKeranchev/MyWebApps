@@ -53,7 +53,7 @@
     }
 
     private async Task LoadData()
-        => Items = await service.GetAllAsync(new TodoItemsFilter() { Name = newTodo });
+        => Items = await service.GetAsync(new TodoItemsFilter() { Name = newTodo });
 
     protected override async Task OnInitializedAsync()
     {

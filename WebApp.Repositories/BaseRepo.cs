@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
+using WebApp.Models.Database;
 
 namespace WebApp.Repositories
 {
@@ -11,7 +7,8 @@ namespace WebApp.Repositories
     {
         public abstract Task DeleteAsync(long id);
 
-        public abstract Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> filter) where TResult : class;
+        public abstract Task<List<TResult>> GetAsync<TResult>(Expression<Func<T, TResult>> selector, IEnumerable<Expression<Func<T, bool>>> filters)
+            where TResult : class;
 
         public abstract Task<TResult?> GetByIdAsync<TResult>(long id, Expression<Func<T, TResult>> selector) where TResult : class;
 

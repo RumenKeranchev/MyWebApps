@@ -23,7 +23,7 @@ namespace WebApp.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItemDto>>> GetTodoItems()
         {
-            var items = await _service.GetAllAsync(new TodoItemsFilter());
+            var items = await _service.GetAsync(new TodoItemsFilter());
             return Ok(items);
         }
 

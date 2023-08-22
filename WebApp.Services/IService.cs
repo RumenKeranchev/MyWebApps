@@ -1,17 +1,21 @@
 ﻿using System.Linq.Expressions;
 using WebApp.Models.ViewFilter;
+using WebApp.Repositories;
 
 namespace WebApp.Services
 {
-    public interface IService<T> where T : class
+    public interface IService<TDto, TModel> where TDto : class
+        where TModel : class
     {
-        Task<List<T>> GetAllAsync(IFilter filter);
+        protected IRepo<TModel> Repository { get; }
 
-        Task<T?> GetByIdAsync(long id);
+        Task<List<TDto>> GetAsync(IFilter<TModel> filter);
 
-        Task<long> InsertAsync(T entity);
+        Task<TDto?> GetByIdAsync(long id);
 
-        Task UpdateAsync(T entity);
+        Task<long> InsertAsync(TDto entity);
+
+        Task UpdateAsync(TDto entity);
 
         Task DeleteAsync(long id);
     }
