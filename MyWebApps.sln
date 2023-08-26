@@ -11,15 +11,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Blazor", "WebApp.Bla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Api", "WebApp.Api\WebApp.Api.csproj", "{ABB0E8AC-6460-467A-A825-E556D0582473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.MinApi", "WebApp.MinApi\WebApp.MinApi.csproj", "{CF9CC42D-C6DF-4CD0-90BD-2B15449C6FA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.MinApi", "WebApp.MinApi\WebApp.MinApi.csproj", "{CF9CC42D-C6DF-4CD0-90BD-2B15449C6FA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Database", "WebApp.Database\WebApp.Database.csproj", "{C52D5F46-DBF6-46AE-834B-D8B2D9FD0922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Database", "WebApp.Database\WebApp.Database.csproj", "{C52D5F46-DBF6-46AE-834B-D8B2D9FD0922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Repositories", "WebApp.Repositories\WebApp.Repositories.csproj", "{37544ADE-2E4E-4F7D-9EE2-E954C23A1429}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Repositories", "WebApp.Repositories\WebApp.Repositories.csproj", "{37544ADE-2E4E-4F7D-9EE2-E954C23A1429}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{E60E29C2-9B4D-4A5C-AE4A-04502CC6D245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{E60E29C2-9B4D-4A5C-AE4A-04502CC6D245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Services", "WebApp.Services\WebApp.Services.csproj", "{707780EC-5F28-4DB3-9396-5E0FC8A1C96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Services", "WebApp.Services\WebApp.Services.csproj", "{707780EC-5F28-4DB3-9396-5E0FC8A1C96D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.gRPC-Service", "WebApp.gRPC-Service\WebApp.gRPC-Service.csproj", "{ABD4BC6F-7DD7-4A6A-9F89-F5A8CF4718FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.gRPC-Client", "WebApp.gRPC-Client\WebApp.gRPC-Client.csproj", "{DA3A63D2-A0B3-4E9F-9219-5F78B7BD630A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{707780EC-5F28-4DB3-9396-5E0FC8A1C96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{707780EC-5F28-4DB3-9396-5E0FC8A1C96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{707780EC-5F28-4DB3-9396-5E0FC8A1C96D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABD4BC6F-7DD7-4A6A-9F89-F5A8CF4718FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD4BC6F-7DD7-4A6A-9F89-F5A8CF4718FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD4BC6F-7DD7-4A6A-9F89-F5A8CF4718FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD4BC6F-7DD7-4A6A-9F89-F5A8CF4718FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA3A63D2-A0B3-4E9F-9219-5F78B7BD630A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3A63D2-A0B3-4E9F-9219-5F78B7BD630A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3A63D2-A0B3-4E9F-9219-5F78B7BD630A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3A63D2-A0B3-4E9F-9219-5F78B7BD630A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
