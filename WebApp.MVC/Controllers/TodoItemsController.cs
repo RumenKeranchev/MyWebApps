@@ -59,7 +59,7 @@ namespace WebApp.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,IsComplete")] WebApp.Models.Dto.TodoItemDto todoItem)
+        public async Task<IActionResult> Create([Bind("Name,IsComplete")] TodoItemDto todoItem)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace WebApp.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,IsComplete")] WebApp.Models.Dto.TodoItemDto todoItem)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,IsComplete")] TodoItemDto todoItem)
         {
             if (id != todoItem.Id)
             {

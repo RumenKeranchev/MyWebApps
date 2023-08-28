@@ -9,7 +9,7 @@ namespace WebApp.Models.Dto
         public string Name { get; set; } = string.Empty;
         public bool IsComplete { get; set; }
 
-        public static Expression<Func<Database.TodoItem, TodoItemDto>> Selector
+        public static Expression<Func<TodoItem, TodoItemDto>> Selector
         {
             get
             {

@@ -9,7 +9,7 @@ using WebApp.Models.Dto;
 
 namespace WebApp.Models.ViewFilter
 {
-    public class TodoItemsFilter : IFilter<Database.TodoItem>
+    public class TodoItemsFilter : IFilter<TodoItem>
     {
         private long id;
 
@@ -21,9 +21,9 @@ namespace WebApp.Models.ViewFilter
 
         public Priority? Priority { get; set; }
 
-        public IEnumerable<Expression<Func<Database.TodoItem, bool>>> Get()
+        public IEnumerable<Expression<Func<TodoItem, bool>>> Get()
         {
-            var filters = new List<Expression<Func<Database.TodoItem, bool>>>();
+            var filters = new List<Expression<Func<TodoItem, bool>>>();
 
             if (!string.IsNullOrWhiteSpace(Name))
             {

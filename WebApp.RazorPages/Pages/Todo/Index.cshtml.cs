@@ -17,7 +17,7 @@ namespace WebApp.RazorPages.Pages.Todo
             _service = service;
         }
 
-        public IList<WebApp.Models.Dto.TodoItemDto> TodoItems { get; set; } = default!;
+        public IList<TodoItemDto> TodoItems { get; set; } = default!;
 
         public async Task OnGetAsync(TodoItemsFilter filter)
             => TodoItems = await _service.GetAsync(filter);

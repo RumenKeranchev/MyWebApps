@@ -6,9 +6,9 @@ using WebApp.Repositories;
 
 namespace WebApp.Services
 {
-    public class TodoItemService : BaseService<Models.Dto.TodoItemDto, Models.Database.TodoItem>
+    public class TodoItemService : BaseService<TodoItemDto, TodoItem>
     {
-        public TodoItemService(IRepo<Models.Database.TodoItem> repo) : base(repo)
+        public TodoItemService(IRepo<TodoItem> repo) : base(repo)
         {
         }
 
@@ -29,31 +29,31 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task<List<Models.Dto.TodoItemDto>> GetAsync(IFilter<Models.Database.TodoItem> filter)
-            => await Repository.GetAsync(Models.Dto.TodoItemDto.Selector, filter.Get());
+        public override async Task<List<TodoItemDto>> GetAsync(IFilter<TodoItem> filter)
+            => await Repository.GetAsync(TodoItemDto.Selector, filter.Get());
 
-        public override Task<Models.Dto.TodoItemDto?> GetByIdAsync(long id)
+        public override Task<TodoItemDto?> GetByIdAsync(long id)
         {
             if (id <= 0)
             {
                 throw new ArgumentException($"Invalid Id provided for retrieval!");
             }
 
-            var item = Repository.GetByIdAsync(id, Models.Dto.TodoItemDto.Selector);
+            var item = Repository.GetByIdAsync(id, TodoItemDto.Selector);
 
             return item is null
                 ? throw new NullReferenceException($"Item with Id [{id}] not found!")
                 : item;
         }
 
-        public override async Task<long> InsertAsync(Models.Dto.TodoItemDto entity)
+        public override async Task<long> InsertAsync(TodoItemDto entity)
         {
             if (string.IsNullOrWhiteSpace(entity.Name))
             {
                 throw new ArgumentNullException($"Attempted to insert item without name!");
             }
 
-            var todoItem = new Models.Database.TodoItem
+            var todoItem = new TodoItem
             {
                 Name = entity.Name,
                 IsComplete = entity.IsComplete,
@@ -70,7 +70,7 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task UpdateAsync(Models.Dto.TodoItemDto entity)
+        public override async Task UpdateAsync(TodoItemDto entity)
         {
             if (entity is null)
             {
@@ -90,7 +90,7 @@ namespace WebApp.Services
                 throw new ArgumentException($"Attempted to change item [{entity.Id}] with invalid name.");
             }
 
-            var item = new Models.Database.TodoItem { Id = entity.Id, Name = entity.Name, IsComplete = entity.IsComplete };
+            var item = new TodoItem { Id = entity.Id, Name = entity.Name, IsComplete = entity.IsComplete };
             await Repository.UpdateAsync(item);
         }
 
