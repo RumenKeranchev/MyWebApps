@@ -42,7 +42,7 @@ namespace WebApp.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ToDoItems");
+                    b.ToTable("ToDoItems", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -62,7 +62,7 @@ namespace WebApp.Services
 
             try
             {
-                return await Repository.InsertAsync(todoItem);
+                return (long)await Repository.InsertAsync(todoItem);
             }
             catch (Exception)
             {

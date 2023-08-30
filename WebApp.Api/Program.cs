@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddScoped<IRepo<TodoItem>, TodoItemsRepo>();
+builder.Services.AddScoped(typeof(IRepo<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<TodoItemService>();
 
 builder.Services.AddControllers();

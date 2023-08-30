@@ -12,7 +12,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped(typeof(IRepo<TodoItem>), typeof(TodoItemsRepo));
+builder.Services.AddScoped(typeof(IRepo<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();

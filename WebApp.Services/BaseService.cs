@@ -1,11 +1,12 @@
-﻿using WebApp.Models.ViewFilter;
+﻿using WebApp.Models.Database;
+using WebApp.Models.ViewFilter;
 using WebApp.Repositories;
 
 namespace WebApp.Services
 {
     public abstract class BaseService<TDto, TModel> : IService<TDto, TModel>
         where TDto : class
-        where TModel : class
+        where TModel : class, IEntity
     {
         private readonly IRepo<TModel> _repo;
 

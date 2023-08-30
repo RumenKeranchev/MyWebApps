@@ -20,7 +20,7 @@ builder.Services.AddResponseCompression(opts =>
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
 
-builder.Services.AddScoped(typeof(IRepo<TodoItem>), typeof(TodoItemsRepo));
+builder.Services.AddScoped(typeof(IRepo<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();

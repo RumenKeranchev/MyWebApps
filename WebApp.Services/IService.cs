@@ -1,11 +1,12 @@
-﻿using System.Linq.Expressions;
+﻿using WebApp.Models.Database;
 using WebApp.Models.ViewFilter;
 using WebApp.Repositories;
 
 namespace WebApp.Services
 {
-    public interface IService<TDto, TModel> where TDto : class
-        where TModel : class
+    public interface IService<TDto, TModel> 
+        where TDto : class
+        where TModel : class, IEntity
     {
         protected IRepo<TModel> Repository { get; }
 

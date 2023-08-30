@@ -10,7 +10,7 @@ builder.Services.AddDbContext<AppDbContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IRepo<TodoItem>, TodoItemsRepo>();
+builder.Services.AddScoped(typeof(IRepo<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<TodoItemService>();
 
 var app = builder.Build();
