@@ -14,14 +14,14 @@ namespace WebApp.Repositories
             _context = context;
         }
 
-        public  async Task DeleteAsync(object id)
+        public async Task DeleteAsync(long id)
         {
-            var item = await _context.ToDoItems.FirstAsync(i => i.Identifier == id);
+            var item = await _context.ToDoItems.FirstAsync(i => i.Id == id);
             _context.Remove(item);
             await _context.SaveChangesAsync();
         }
 
-        public  Task<List<TResult>> GetAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, IEnumerable<Expression<Func<TodoItem, bool>>>? filters = null)
+        public Task<List<TResult>> GetAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, IEnumerable<Expression<Func<TodoItem, bool>>>? filters = null)
             where TResult : class
         {
             var query = _context.ToDoItems.AsQueryable();
@@ -36,13 +36,13 @@ namespace WebApp.Repositories
                .ToListAsync();
         }
 
-        public  Task<TResult?> GetByIdAsync<TResult>(object id, Expression<Func<TodoItem, TResult>> selector) where TResult : class
+        public Task<TResult?> GetByIdAsync<TResult>(long id, Expression<Func<TodoItem, TResult>> selector) where TResult : class
             => _context.ToDoItems
-                .Where(i => i.Identifier == id)
+                .Where(i => i.Id == id)
                 .Select(selector)
                 .SingleOrDefaultAsync();
 
-        public  async Task<object> InsertAsync(TodoItem entity)
+        public async Task<long> InsertAsync(TodoItem entity)
         {
             _context.Add(entity);
             await _context.SaveChangesAsync();
@@ -55,7 +55,7 @@ namespace WebApp.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public  async Task UpdateAsync(TodoItem entity)
+        public async Task UpdateAsync(TodoItem entity)
         {
             var item = await _context.ToDoItems.FirstAsync(x => x.Id == entity.Id);
 

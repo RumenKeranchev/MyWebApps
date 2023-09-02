@@ -6,7 +6,7 @@ namespace WebApp.Services
 {
     public interface IService<TDto, TModel> 
         where TDto : class
-        where TModel : class, IEntity
+        where TModel : class
     {
         Task<List<TDto>> GetAsync(IFilter<TModel> filter);
 

@@ -2,7 +2,7 @@
 
 namespace WebApp.Models.Database
 {
-    public class TodoItem : IEntity
+    public class TodoItem 
     {
         public long Id { get; set; }
 
@@ -16,7 +16,5 @@ namespace WebApp.Models.Database
         /// For the purpose of making a DTO in other projects
         /// </summary>
         public Priority Priority { get; set; }
-
-        public object Identifier => Id;
     }
 }
