@@ -6,13 +6,16 @@ using WebApp.Repositories;
 
 namespace WebApp.Services
 {
-    public class TodoItemService : BaseService<TodoItemDto, TodoItem>
+    public class TodoItemService : IService<TodoItemDto, TodoItem>
     {
-        public TodoItemService(IRepo<TodoItem> repo) : base(repo)
+        private IRepo<TodoItem> Repository;
+
+        public TodoItemService(IRepo<TodoItem> repo) //: base(repo)
         {
+            Repository = repo;
         }
 
-        public override async Task DeleteAsync(long id)
+        public  async Task DeleteAsync(long id)
         {
             if (id <= 0)
             {
@@ -29,10 +32,10 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task<List<TodoItemDto>> GetAsync(IFilter<TodoItem> filter)
+        public  async Task<List<TodoItemDto>> GetAsync(IFilter<TodoItem> filter)
             => await Repository.GetAsync(TodoItemDto.Selector, filter.Get());
 
-        public override Task<TodoItemDto?> GetByIdAsync(long id)
+        public  Task<TodoItemDto?> GetByIdAsync(long id)
         {
             if (id <= 0)
             {
@@ -46,7 +49,7 @@ namespace WebApp.Services
                 : item;
         }
 
-        public override async Task<long> InsertAsync(TodoItemDto entity)
+        public  async Task<long> InsertAsync(TodoItemDto entity)
         {
             if (string.IsNullOrWhiteSpace(entity.Name))
             {
@@ -70,7 +73,7 @@ namespace WebApp.Services
             }
         }
 
-        public override async Task UpdateAsync(TodoItemDto entity)
+        public  async Task UpdateAsync(TodoItemDto entity)
         {
             if (entity is null)
             {

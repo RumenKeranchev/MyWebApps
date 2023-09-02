@@ -8,8 +8,6 @@ namespace WebApp.Services
         where TDto : class
         where TModel : class, IEntity
     {
-        protected IRepo<TModel> Repository { get; }
-
         Task<List<TDto>> GetAsync(IFilter<TModel> filter);
 
         Task<TDto?> GetByIdAsync(long id);

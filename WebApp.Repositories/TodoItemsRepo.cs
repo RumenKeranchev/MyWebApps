@@ -5,66 +5,74 @@ using WebApp.Models.Database;
 
 namespace WebApp.Repositories
 {
-    //public class TodoItemsRepo : BaseRepo<TodoItem>
-    //{
-    //    private readonly AppDbContext _context;
+    public class TodoItemsRepo : IRepo<TodoItem>
+    {
+        private readonly AppDbContext _context;
 
-    //    public TodoItemsRepo(AppDbContext context)
-    //    {
-    //        _context = context;
-    //    }
+        public TodoItemsRepo(AppDbContext context)
+        {
+            _context = context;
+        }
 
-    //    public override async Task DeleteAsync(object id)
-    //    {
-    //        var item = await _context.ToDoItems.FirstAsync(i => i.Identifier == id);
-    //        _context.Remove(item);
-    //        await _context.SaveChangesAsync();
-    //    }
+        public  async Task DeleteAsync(object id)
+        {
+            var item = await _context.ToDoItems.FirstAsync(i => i.Identifier == id);
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
+        }
 
-    //    public override Task<List<TResult>> GetAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, IEnumerable<Expression<Func<TodoItem, bool>>>? filters = null) 
-    //        where TResult : class
-    //       => filters
-    //           .Aggregate(_context.ToDoItems.AsQueryable(), (items, filter) => items.Where(filter))
-    //           .Select(selector)
-    //           .ToListAsync();
+        public  Task<List<TResult>> GetAsync<TResult>(Expression<Func<TodoItem, TResult>> selector, IEnumerable<Expression<Func<TodoItem, bool>>>? filters = null)
+            where TResult : class
+        {
+            var query = _context.ToDoItems.AsQueryable();
 
-    //    public override Task<TResult?> GetByIdAsync<TResult>(object id, Expression<Func<TodoItem, TResult>> selector) where TResult : class
-    //        => _context.ToDoItems
-    //            .Where(i => i.Identifier == id)
-    //            .Select(selector)
-    //            .SingleOrDefaultAsync();
+            if (filters is not null && filters.Any())
+            {
+                query = filters.Aggregate(query, (items, filter) => items.Where(filter));
+            }
 
-    //    public override async Task<object> InsertAsync(TodoItem entity)
-    //    {
-    //        _context.Add(entity);
-    //        await _context.SaveChangesAsync();
+            return query
+               .Select(selector)
+               .ToListAsync();
+        }
 
-    //        return entity.Id;
-    //    }
+        public  Task<TResult?> GetByIdAsync<TResult>(object id, Expression<Func<TodoItem, TResult>> selector) where TResult : class
+            => _context.ToDoItems
+                .Where(i => i.Identifier == id)
+                .Select(selector)
+                .SingleOrDefaultAsync();
 
-    //    /// <summary>
-    //    /// If some property is not set, it will be reset - THIS NEEDS A FIX
-    //    /// </summary>
-    //    /// <param name="entity"></param>
-    //    /// <returns></returns>
-    //    public override async Task UpdateAsync(TodoItem entity)
-    //    {
-    //        var item = await _context.ToDoItems.FirstAsync(x => x.Id == entity.Id);
+        public  async Task<object> InsertAsync(TodoItem entity)
+        {
+            _context.Add(entity);
+            await _context.SaveChangesAsync();
 
-    //        var x = _context.Entry(entity).Properties.Where(p => p.IsModified).ToList();
+            return entity.Id;
+        }
 
-    //        foreach (var prop in entity.GetType().GetProperties())
-    //        {
-    //            var value = prop.GetValue(entity);
-    //            var itemProp = item.GetType().GetProperty(prop.Name);
+        /// <summary>
+        /// If some property is not set, it will be reset - THIS NEEDS A FIX
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public  async Task UpdateAsync(TodoItem entity)
+        {
+            var item = await _context.ToDoItems.FirstAsync(x => x.Id == entity.Id);
 
-    //            if (value != default && itemProp!.GetValue(item) != value)
-    //            {
-    //                itemProp.SetValue(item, value);
-    //            }
-    //        }
+            var x = _context.Entry(entity).Properties.Where(p => p.IsModified).ToList();
 
-    //        await _context.SaveChangesAsync();
-    //    }
-    //}
+            foreach (var prop in entity.GetType().GetProperties())
+            {
+                var value = prop.GetValue(entity);
+                var itemProp = item.GetType().GetProperty(prop.Name);
+
+                if (value != default && itemProp!.GetValue(item) != value)
+                {
+                    itemProp.SetValue(item, value);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
+    }
 }
